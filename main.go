@@ -6,7 +6,6 @@ import (
 	"crowdfunding/handler"
 	"crowdfunding/helper"
 	"crowdfunding/user"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -24,27 +23,28 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-
+	//repository
 	userRepostory := user.NewRepository(db)
 	campaignRepository := campaign.NewRepository(db)
-	campaigns, _ := campaignRepository.FindByUserID(1)
-	for _, campaign := range campaigns {
-		fmt.Println(campaign.Name)
-		fmt.Print(campaign.CampaignImages[0].FileName)
-	}
 
-	fmt.Println(len(campaigns))
+	//service
+	campaignService := campaign.NewService(campaignRepository)
 	userService := user.NewService(userRepostory)
 	authService := auth.NewService()
+
+	//handler
 	userhandler := handler.NewUserHandler(userService, authService)
+	campaignHandler := handler.NewCampaignHandler(campaignService)
 
 	router := gin.Default()
 	api := router.Group("/api/v1")
-
+	//POST ROUTE
 	api.POST("/users", userhandler.RegisterUser)
 	api.POST("/sessions", userhandler.Login)
 	api.POST("/email_checkers", userhandler.CheckEmailAvailability)
 	api.POST("/avatars", authMiddleWare(authService, userService), userhandler.UploadAvatar)
+	//GET ROUTE
+	api.GET("/campaigns", campaignHandler.GetCampaigns)
 	router.Run()
 
 }
