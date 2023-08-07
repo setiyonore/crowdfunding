@@ -1,6 +1,9 @@
 package campaign
 
-import "time"
+import (
+	"crowdfunding/user"
+	"time"
+)
 
 type Campaign struct {
 	ID               int
@@ -15,6 +18,8 @@ type Campaign struct {
 	CreatedAt        time.Time
 	UpdatedAt        time.Time
 	CampaignImages   []CampaignImage
+	User             user.User
+	Perks            string
 }
 
 type CampaignImage struct {
