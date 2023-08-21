@@ -14,7 +14,7 @@ func FormatCampaignTransaction(transaction Transaction) CampaignTransactionForma
 	formatter.ID = transaction.ID
 	formatter.Name = transaction.User.Name
 	formatter.Amount = transaction.Amount
-	formatter.CreatedAt = transaction.CratedAt
+	formatter.CreatedAt = transaction.CreatedAt
 	return formatter
 }
 
@@ -48,7 +48,7 @@ func FormatUserTransaction(transaction Transaction) UserTransactionFormatter {
 	formatter.ID = transaction.ID
 	formatter.Amount = transaction.Amount
 	formatter.Status = transaction.Status
-	formatter.CreatedAt = transaction.CratedAt
+	formatter.CreatedAt = transaction.CreatedAt
 
 	campaignFormatter := CampaignFormatter{}
 	campaignFormatter.Name = transaction.Campaign.Name
