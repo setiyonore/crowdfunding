@@ -66,7 +66,7 @@ func main() {
 	api.GET("/campaigns/:id/transactions", authMiddleWare(authService, userService), transactionHandler.GetCampaignTransactions)
 	api.GET("/transactions", authMiddleWare(authService, userService), transactionHandler.GetUserTransactions)
 	api.POST("/transactions", authMiddleWare(authService, userService), transactionHandler.CreateTransaction)
-
+	api.POST("/transactions/notification", transactionHandler.GetNotification)
 	router.Run()
 
 }
