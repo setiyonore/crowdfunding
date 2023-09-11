@@ -8,11 +8,14 @@ import (
 	"crowdfunding/payment"
 	"crowdfunding/transaction"
 	"crowdfunding/user"
+	webHanlder "crowdfunding/web/handler"
 	"log"
 	"net/http"
+	"path/filepath"
 	"strings"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"gorm.io/driver/mysql"
@@ -44,10 +47,14 @@ func main() {
 	campaignHandler := handler.NewCampaignHandler(campaignService)
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 
+	userWebHandler := webHanlder.NewUserHandler()
 	router := gin.Default()
 	router.Use(cors.Default())
+	// router.LoadHTMLGlob("web/templates/**/*")
+	router.HTMLRender = loadTemplates("./web/templates")
 	router.Static("/images", "./images")
 	api := router.Group("/api/v1")
+	//API ROUTE
 	//ROUTE Users
 	api.POST("/users", userhandler.RegisterUser)
 	api.POST("/sessions", userhandler.Login)
@@ -67,6 +74,9 @@ func main() {
 	api.GET("/transactions", authMiddleWare(authService, userService), transactionHandler.GetUserTransactions)
 	api.POST("/transactions", authMiddleWare(authService, userService), transactionHandler.CreateTransaction)
 	api.POST("/transactions/notification", transactionHandler.GetNotification)
+
+	//WEB ROUTE
+	router.GET("/users", userWebHandler.Index)
 	router.Run()
 
 }
@@ -104,4 +114,27 @@ func authMiddleWare(authService auth.Service, userService user.Service) gin.Hand
 		}
 		c.Set("currentUser", user)
 	}
+}
+
+func loadTemplates(templatesDir string) multitemplate.Renderer {
+	r := multitemplate.NewRenderer()
+
+	layouts, err := filepath.Glob(templatesDir + "/layouts/*")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	includes, err := filepath.Glob(templatesDir + "/**/*")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// Generate our templates map from our layouts/ and includes/ directories
+	for _, include := range includes {
+		layoutCopy := make([]string, len(layouts))
+		copy(layoutCopy, layouts)
+		files := append(layoutCopy, include)
+		r.AddFromFiles(filepath.Base(include), files...)
+	}
+	return r
 }
