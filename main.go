@@ -53,6 +53,8 @@ func main() {
 	// router.LoadHTMLGlob("web/templates/**/*")
 	router.HTMLRender = loadTemplates("./web/templates")
 	router.Static("/images", "./images")
+	router.Static("/css", "./web/assets/css")
+	router.Static("/js", "./web/assets/js")
 	api := router.Group("/api/v1")
 	//API ROUTE
 	//ROUTE Users
