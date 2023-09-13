@@ -16,7 +16,27 @@
     <div class="col-12">
         <div class="card card-primary card-outline">
             <div class="card-body">
-                Halaman index user
+                <a href="/users/new" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah User</a>
+                <table class="card-body table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Occupation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range.users}}
+                    <tr>
+                        <td><img class="img-fluid img-thumbnail" src="{{ .AvatarFileName}}" width="60"></td>
+                        <td>{{ .Name }}</td>
+                        <td>{{ .Email }}</td>
+                        <td>{{ .Occupation }}</td>
+                    </tr>
+                    {{end}}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
