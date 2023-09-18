@@ -23,7 +23,7 @@ import (
 )
 
 func main() {
-	dsn := "root:root@tcp(127.0.0.1:3306)/crowdfunding?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:@tcp(127.0.0.1:3306)/crowdfunding?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -81,6 +81,8 @@ func main() {
 	router.GET("/users", userWebHandler.Index)
 	router.GET("/users/new", userWebHandler.New)
 	router.POST("/users", userWebHandler.Create)
+	router.GET("/users/edit/:id", userWebHandler.Edit)
+	router.POST("/users/update/:id", userWebHandler.Update)
 	router.Run()
 
 }
