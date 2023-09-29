@@ -15,6 +15,9 @@
   <div class="col-12">
     <div class="card card-primary card-outline">
       <div class="card-body">
+        <a href="/campaigns/new" class="btn btn-primary"
+        ><i class="fa fa-plus"></i> New Campaign</a
+      >
         <table class="card-body table">
           <thead>
             <tr>
@@ -22,6 +25,7 @@
               <th>Name</th>
               <th>Short Description</th>
               <th>Goal Amount</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -46,6 +50,12 @@
                   ><i class="fa fa-edit"></i
                 ></a>
               </td>
+              <td>
+                <a href="/campaigns/image/{{.ID}}" class="btn btn-secondary btn-sm"
+                  ><i class="fa fa-camera"></i
+                ></a>
+              </td>
+              
             </tr>
             {{end}}
           </tbody>
