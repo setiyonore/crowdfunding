@@ -4,6 +4,7 @@ import (
 	"crowdfunding/campaign"
 	"crowdfunding/payment"
 	"errors"
+	"fmt"
 	"strconv"
 )
 
@@ -18,6 +19,7 @@ type Service interface {
 	GetTransactionByUserID(userID int) ([]Transaction, error)
 	CreateTransaction(input CreateTransactionInput) (Transaction, error)
 	ProcessPayment(input TransactionNotificationInput) error
+	GetAllTransaction() ([]Transaction, error)
 }
 
 func NewService(repository Repository, campaignRepository campaign.Repository, paymentService payment.Service) *service {
@@ -104,4 +106,13 @@ func (s *service) ProcessPayment(input TransactionNotificationInput) error {
 		}
 	}
 	return nil
+}
+
+func (s *service) GetAllTransaction() ([]Transaction, error) {
+	transactions, err := s.repository.FindAll()
+	if err != nil {
+		return transactions, err
+	}
+	fmt.Println(transactions)
+	return transactions, nil
 }

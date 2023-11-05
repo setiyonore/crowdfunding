@@ -1,0 +1,40 @@
+{{define "header-content"}}
+<div class="row mb-2">
+  <div class="col-sm-6">
+    <h1 class="m-0">Transactions Page</h1>
+  </div>
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item active">Transactions Page</li>
+    </ol>
+  </div>
+</div>
+{{end}} {{define "content"}}
+<div class="row">
+  <div class="col-12">
+    <div class="card card-primary card-outline">
+      <div class="card-body">
+        <table class="card-body table">
+          <thead>
+            <tr>
+              <th>Campaign Name</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .transactions}}
+            <tr>
+              <td>{{ .Campaign.Name}}</td>
+              <td>{{ .AmountFormatIDR}}</td>
+              <td>{{ .Status}}</td>              
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
