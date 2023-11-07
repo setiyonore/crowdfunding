@@ -103,6 +103,7 @@ func main() {
 	router.GET("/transactions", authAdminMiddleWare(), transactionWebHandler.Index)
 	router.GET("/login", sessionWebHandler.New)
 	router.POST("/session", sessionWebHandler.Create)
+	router.GET("/logout", sessionWebHandler.Destroy)
 	router.Run()
 
 }
