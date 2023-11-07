@@ -4,7 +4,6 @@ import (
 	"crowdfunding/campaign"
 	"crowdfunding/payment"
 	"errors"
-	"fmt"
 	"strconv"
 )
 
@@ -113,6 +112,5 @@ func (s *service) GetAllTransaction() ([]Transaction, error) {
 	if err != nil {
 		return transactions, err
 	}
-	fmt.Println(transactions)
 	return transactions, nil
 }
